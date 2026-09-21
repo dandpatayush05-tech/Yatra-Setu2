@@ -8,7 +8,7 @@ import { ApiError, UnauthorizedError, NotFoundError, ConflictError } from '../ut
 
 import { signupSchema, loginSchema, changePasswordSchema, resetPasswordSchema } from '../validators/authValidator';
 import { isPasswordReused, recordPasswordHistory } from '../services/passwordHistoryService';
-import { checkPasswordStrength } from '../utils/passwordStrength';
+
 
 const hashToken = (token: string) => crypto.createHash('sha256').update(token).digest('hex');
 
@@ -19,10 +19,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
   }
   const { name, email, password } = result.data;
 
-  const strength = checkPasswordStrength(password, { name, email });
-  if (!strength.ok) {
-    return res.status(400).json({ error: { message: 'Password is too weak', details: strength.reasons } });
-  }
+
 
   const { data: existingUser } = await supabase.from('users').select('id').eq('email', email).single();
   if (existingUser) {
@@ -186,10 +183,7 @@ export const changePassword = async (req: AuthRequest, res: Response): Promise<a
     throw new NotFoundError('User not found', undefined);
   }
 
-  const strength = checkPasswordStrength(newPassword, { name: user.name, email: user.email });
-  if (!strength.ok) {
-    return res.status(400).json({ error: { message: 'Password is too weak', details: strength.reasons } });
-  }
+
 
   const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
   if (!isMatch) {
@@ -225,10 +219,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<any> =
     return res.json({ message: 'If the email exists, the password has been reset.' });
   }
 
-  const strength = checkPasswordStrength(newPassword, { name: user.name, email: user.email });
-  if (!strength.ok) {
-    return res.status(400).json({ error: { message: 'Password is too weak', details: strength.reasons } });
-  }
+
 
   const reused = await isPasswordReused(user.id, newPassword);
   if (reused) {

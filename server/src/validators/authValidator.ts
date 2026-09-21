@@ -12,11 +12,7 @@ export const emailSchema = z.string()
   .email('Invalid email address')
   .regex(/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/, "Email must have a valid domain extension");
 
-export const passwordSchema = z.string()
-  .min(8, 'Password must be at least 8 characters')
-  .regex(/[a-zA-Z]/, 'Password must contain at least one letter')
-  .regex(/\d/, 'Password must contain at least one digit')
-  .regex(/[^a-zA-Z\d\s]/, 'Password must contain at least one symbol');
+export const passwordSchema = z.string().min(1, 'Password is required');
 
 export const signupSchema = z.object({
   name: nameSchema,

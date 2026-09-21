@@ -1,21 +1,9 @@
 import React, { useRef } from 'react';
-import { Upload } from 'lucide-react';
+import { Upload, MapPin, Plane, Hotel, Bus, Car } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Testimonials } from './Testimonials';
-
-const NavButton = ({ children, to }: { children: React.ReactNode, to?: string }) => {
-  const className = "bg-transparent border border-vstara-text/20 rounded-full px-5 py-2.5 cursor-pointer font-sans text-[15px] font-medium uppercase text-vstara-text tracking-[0.04em] transition-all hover:border-vstara-text/40 hover:bg-black/5 no-underline flex items-center justify-center";
-  
-  if (to) {
-    return <Link to={to} className={className}>{children}</Link>;
-  }
-  
-  return (
-    <button className={className}>
-      {children}
-    </button>
-  );
-};
+import { SmokeBackground } from './effects/SmokeBackground';
+import { Navbar } from './layout/Navbar';
 
 export const Hero = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,84 +18,172 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-svh w-full overflow-hidden">
-      {/* Background video (z-0) */}
-      <video
-        src="https://pollen-batch-41236914.figma.site/_components/v2/f0ee2dae7671c170c34f12e31c4cb41418976c98/769c564298c132f7919405cd9f17c1b1231f341d.769c5642.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
+    <main className="w-full bg-[#FBF6F0]">
+      {/* Hero Section */}
+      <section className="relative h-[700px] w-full overflow-hidden bg-[#FBF6F0]">
+        {/* Background image (z-0) */}
+        <img
+          src="/hero-illustration.jpg"
+          alt="Traveler illustration"
+          className="absolute inset-0 w-full h-full object-cover object-[70%_center] z-0"
+        />
 
-      {/* Top gradient overlay (z-[1]) */}
-      <div 
-        className="absolute inset-x-0 top-0 h-[687px] pointer-events-none z-[1]"
-        style={{ background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)' }}
-      />
+        {/* Smoke effect */}
+        <SmokeBackground intensity="medium" />
 
-      {/* Content wrapper (z-[2]) */}
-      <div className="relative z-[2] max-w-[1360px] mx-auto">
-        {/* Navigation bar */}
-        <nav className="flex items-center justify-between px-20 max-md:px-6 pt-6 max-md:pt-5 pb-4">
-          <div className="flex items-center -space-x-4">
-            <img src="/logo.png" alt="Yatra Setu Logo" className="w-24 h-24 object-contain mix-blend-multiply scale-125" />
-            <span className="font-display text-[40px] max-md:text-[32px] text-black leading-none select-none mt-2 relative z-10">
-              Yatra Setu
-            </span>
-          </div>
+        {/* Left-to-right cream gradient overlay (z-[1]) */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-[1] bg-gradient-to-r from-[#FBF6F0] via-[#FBF6F0]/90 to-transparent"
+        />
 
-          <div className="absolute left-1/2 -translate-x-1/2 flex gap-8 max-md:hidden">
-            <NavButton to="/destinations">Discover</NavButton>
-            <NavButton>Pricing</NavButton>
-            <NavButton>FAQs</NavButton>
-          </div>
+        {/* Content wrapper (z-[2]) */}
+        <div className="relative z-[2] max-w-7xl mx-auto h-full flex flex-col">
+          <Navbar />
 
-          <div className="flex items-center gap-8">
-          </div>
-        </nav>
+          {/* Hero body */}
+          <div className="flex-1 relative flex flex-col justify-center items-start px-6 pt-12 pb-16 text-left">
+            
+            {/* Handwritten Doodle (Hidden below lg) */}
+            <div className="hidden lg:flex absolute top-12 right-12 flex-col items-center rotate-[-6deg] opacity-80">
+              <span className="font-handwritten text-4xl text-[#8B1A3A] mb-2 tracking-wide">
+                More Journeys More Stories
+              </span>
+              <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-1 translate-x-12">
+                <path d="M10 50 Q 50 10 110 30" stroke="#8B1A3A" strokeWidth="2" strokeDasharray="6 6" fill="none" />
+                <path d="M110 30 L100 20 L105 35 Z" fill="#8B1A3A" />
+              </svg>
+            </div>
 
-        {/* Hero body */}
-        <div className="flex flex-col items-center px-6 pt-16 pb-24 text-center">
-          <h1 className="font-sans text-[clamp(40px,6vw,68px)] font-medium text-vstara-text leading-[1.05] tracking-[-0.04em] max-w-[820px] mb-5">
-            Your Yatra Beyond Limits with Endless Possibilities
-          </h1>
-          <p className="font-sans text-xl font-medium text-vstara-muted leading-relaxed max-w-[500px] mb-10">
-            Tell our AI where you're going and what you love. We'll create a personalized itinerary for you.
-          </p>
-
-          {/* Liquid-glass prompt card */}
-          <div className="relative w-[701px] max-md:w-[calc(100vw-48px)] min-h-[208px] bg-white/[0.06] border-[3px] border-white rounded-[44px] shadow-[0_0_4px_0_rgba(0,0,0,0.15)] overflow-hidden backdrop-blur-[20px]">
-            <p className="absolute left-[29px] top-[57px] -translate-y-1/2 w-[609px] max-md:w-[calc(100%-58px)] font-sans text-xl max-md:text-[17px] font-medium text-vstara-prompt leading-relaxed break-words text-left">
-              I'm planning a 7-day trip to Japan in October. I love food, hidden cafes, scenic hikes, and want to avoid crowds....
+            <h1 className="font-display text-[clamp(40px,6vw,68px)] font-medium text-[#1a1a1a] leading-[1.1] tracking-[-0.02em] max-w-[720px] mb-6 text-left">
+              Your <span className="text-[#8B1A3A] italic">Yatra</span> Beyond<br />
+              Limits with Endless<br />
+              Possibilities
+            </h1>
+            <p className="font-sans text-xl font-medium text-gray-500 leading-relaxed max-w-[500px] mb-10 text-left">
+              Tell our AI where you're going and what you love. We'll create a personalized itinerary for you.
             </p>
 
-            <button onClick={handlePlanTripClick} className="absolute bottom-[21px] right-[21px] w-[156px] h-14 bg-black border-none rounded-[44px] shadow-[0_0_2px_0_rgba(0,0,0,0.05)] cursor-pointer flex items-center justify-center font-sans text-base font-medium text-[#fafafa] uppercase tracking-[0.02em] transition-all hover:bg-[#333] active:scale-95 no-underline">
-              Plan My Trip
-            </button>
+            {/* Search Bar */}
+            <div className="flex items-center w-full max-w-[701px] bg-white rounded-full p-2 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 mt-2">
+              
+              <div className="flex items-center flex-1 px-4">
+                <MapPin className="w-5 h-5 text-gray-400 mr-3" />
+                <input 
+                  type="text" 
+                  placeholder="Where do you want to go?" 
+                  className="w-full bg-transparent border-none outline-none text-gray-700 placeholder-gray-400 text-lg font-sans focus:ring-0"
+                />
+              </div>
 
-            <input 
-              ref={fileInputRef} 
-              type="file" 
-              accept="image/*,.pdf" 
-              className="hidden" 
-            />
+              <div className="flex items-center gap-2 pr-1">
+                <button 
+                  onClick={handleUploadClick}
+                  aria-label="Upload inspiration"
+                  className="w-10 h-10 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                >
+                  <Upload className="w-5 h-5" />
+                </button>
 
-            <button 
-              onClick={handleUploadClick}
-              aria-label="Upload inspiration"
-              className="absolute left-[21px] bottom-[21px] w-[156px] h-14 bg-black border-none rounded-[44px] shadow-[0_0_2px_0_rgba(0,0,0,0.05)] cursor-pointer flex items-center justify-center font-sans text-base font-medium text-[#fafafa] uppercase tracking-[0.02em] transition-all hover:bg-[#333] active:scale-95 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-            >
-              <Upload className="w-[18px] h-[18px] mr-2 flex-shrink-0" />
-              Upload
-            </button>
+                <input 
+                  ref={fileInputRef} 
+                  type="file" 
+                  accept="image/*,.pdf" 
+                  className="hidden" 
+                />
+
+                <button 
+                  onClick={handlePlanTripClick}
+                  className="flex items-center px-6 py-3 bg-[#8B1A3A] hover:bg-[#6e142e] text-white rounded-full font-medium transition-colors whitespace-nowrap"
+                >
+                  <span className="mr-2">✦</span>
+                  Plan My Trip
+                  <span className="ml-2">→</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="grid grid-cols-2 md:flex md:items-center gap-4 mt-8 w-full max-w-[701px] bg-white/40 backdrop-blur-sm rounded-2xl p-4 shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-white/50">
+              <Link to="/dashboard/flights" className="flex items-center gap-3 flex-1 group no-underline">
+                <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                  <Plane className="w-5 h-5 text-pink-600" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-[#8B1A3A] transition-colors">Flights</span>
+                  <span className="text-xs text-gray-600">best prices & deals</span>
+                </div>
+              </Link>
+
+              <div className="w-px h-10 bg-gray-300/50 hidden md:block" />
+
+              <Link to="/dashboard/hotels" className="flex items-center gap-3 flex-1 group no-underline">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                  <Hotel className="w-5 h-5 text-blue-600" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-[#8B1A3A] transition-colors">Hotels</span>
+                  <span className="text-xs text-gray-600">comfortable stays</span>
+                </div>
+              </Link>
+
+              <div className="w-px h-10 bg-gray-300/50 hidden md:block" />
+
+              <Link to="/dashboard/buses" className="flex items-center gap-3 flex-1 group no-underline">
+                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                  <Bus className="w-5 h-5 text-red-600" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-[#8B1A3A] transition-colors">Buses</span>
+                  <span className="text-xs text-gray-600">safe & reliable</span>
+                </div>
+              </Link>
+
+              <div className="w-px h-10 bg-gray-300/50 hidden md:block" />
+
+              <Link to="/dashboard/auto" className="flex items-center gap-3 flex-1 group no-underline">
+                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                  <Car className="w-5 h-5 text-amber-600" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-[#8B1A3A] transition-colors">Taxis</span>
+                  <span className="text-xs text-gray-600">one click booking</span>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Testimonials Section */}
-        <Testimonials />
-      </div>
-    </section>
+      {/* Popular Destinations */}
+      <section className="w-full max-w-7xl mx-auto px-6 py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <span className="text-[#8B1A3A] text-sm font-bold uppercase tracking-wider mb-2 block">Popular Destinations</span>
+            <h2 className="font-display text-4xl md:text-5xl font-medium text-gray-900">Explore the Best of India</h2>
+          </div>
+          <Link to="/destinations" className="inline-flex items-center px-6 py-2.5 border border-gray-300 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors mt-6 md:mt-0 whitespace-nowrap text-gray-700 no-underline">
+            View All Destinations <span className="ml-2">→</span>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { id: 'goa', name: 'Goa', image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=600&auto=format&fit=crop' },
+            { id: 'delhi', name: 'Delhi', image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=600&auto=format&fit=crop' },
+            { id: 'mumbai', name: 'Mumbai', image: 'https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?q=80&w=600&auto=format&fit=crop' },
+            { id: 'jaipur', name: 'Jaipur', image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=600&auto=format&fit=crop' }
+          ].map(dest => (
+            <Link key={dest.id} to={`/destinations/${dest.id}`} className="group relative h-[400px] rounded-3xl overflow-hidden shadow-sm no-underline block">
+              <img src={dest.image} alt={dest.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <h3 className="absolute bottom-6 left-6 text-2xl font-display text-white font-medium">{dest.name}</h3>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <Testimonials />
+    </main>
   );
 };

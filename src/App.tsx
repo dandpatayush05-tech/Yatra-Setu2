@@ -23,6 +23,7 @@ const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard').then(m 
 const DashboardLayout = React.lazy(() => import('./layouts/DashboardLayout').then(m => ({ default: m.DashboardLayout })));
 const Hotels = React.lazy(() => import('./pages/Hotels').then(m => ({ default: m.Hotels })));
 const HotelDetails = React.lazy(() => import('./pages/HotelDetails').then(m => ({ default: m.HotelDetails })));
+const HotelCheckout = React.lazy(() => import('./pages/HotelCheckout').then(m => ({ default: m.HotelCheckout })));
 const Flights = React.lazy(() => import('./pages/Flights').then(m => ({ default: m.Flights })));
 const FlightDetails = React.lazy(() => import('./pages/FlightDetails').then(m => ({ default: m.FlightDetails })));
 const Buses = React.lazy(() => import('./pages/Buses').then(m => ({ default: m.Buses })));
@@ -72,6 +73,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/dashboard/hotels" element={<Hotels />} />
                 <Route path="/dashboard/hotels/:id" element={<HotelDetails />} />
+                <Route path="/dashboard/checkout" element={<HotelCheckout />} />
                 <Route path="/dashboard/flights" element={<Flights />} />
                 <Route path="/dashboard/flights/:id" element={<FlightDetails />} />
                 <Route path="/dashboard/buses" element={<Buses />} />

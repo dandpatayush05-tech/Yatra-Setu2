@@ -3,14 +3,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import api from '../lib/axios';
-import { Plane, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Plane, ArrowRight, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { loginSchema, signupSchema as registerSchema } from '../schemas/authSchema';
 import { FieldError } from '../components/FieldError';
-import { PasswordStrength } from '../components/PasswordStrength';
 import { LandingBackgroundScene } from '../components/LandingBackgroundScene';
+import { SmokeBackground } from '../components/effects/SmokeBackground';
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -63,18 +63,26 @@ export const Login = () => {
   return (
     <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-center items-center px-4 relative z-0">
       <LandingBackgroundScene />
+      <SmokeBackground intensity="medium" />
       {/* Yatra Setu Logo */}
-      <Link to="/" className="absolute top-8 left-8 flex items-center space-x-2 text-[#2A2A2A] hover:opacity-80 transition-opacity">
+      <Link to="/" className="absolute top-8 left-8 flex items-center space-x-2 text-[#2A2A2A] hover:opacity-80 transition-opacity relative z-10">
         <Plane className="w-8 h-8" />
         <span className="text-2xl font-serif tracking-tight">Yatra Setu</span>
       </Link>
 
-      <div className="w-full max-w-md">
-        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5">
-          <h2 className="text-3xl font-serif text-[#2A2A2A] mb-2">
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 relative">
+          <button 
+            onClick={() => navigate(-1)}
+            className="absolute top-6 left-6 text-gray-400 hover:text-[#C84B31] transition-colors"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <h2 className="text-3xl font-serif text-[#2A2A2A] mb-2 text-center">
             {isLogin ? 'Welcome back' : 'Begin your journey'}
           </h2>
-          <p className="text-[#2A2A2A]/60 mb-8 font-light">
+          <p className="text-[#2A2A2A]/60 mb-8 font-light text-center">
             {isLogin ? 'Enter your details to access your itineraries.' : 'Create an account to start planning.'}
           </p>
 
@@ -133,12 +141,6 @@ export const Login = () => {
                 </button>
               </div>
               <FieldError error={errors.password?.message as string} />
-              {!isLogin && (
-                <PasswordStrength 
-                  password={watch('password')} 
-                  userInputs={[watch('name'), watch('email')].filter(Boolean)} 
-                />
-              )}
             </div>
 
             <button
